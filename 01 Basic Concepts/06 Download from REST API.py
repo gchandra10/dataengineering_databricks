@@ -26,6 +26,10 @@ type(txtJson)
 
 # COMMAND ----------
 
+type(sc.parallelize([txtJson]))
+
+# COMMAND ----------
+
 df = spark.read.json(sc.parallelize([txtJson]))
 
 df.show(truncate=False)
@@ -288,7 +292,7 @@ type(udf_getAllModels)
 # COMMAND ----------
 
 ## If you are looking for specific Vehicle alone, filter it first. If you are looking for all Vehicles then this is not needed.
-make_df3 = make_df3.filter(col("Make_Name")=="JAGUAR")
+make_df3 = make_df3.filter(col("Make_Name")=="AUDI")
 
 # COMMAND ----------
 
@@ -312,7 +316,7 @@ make_model_df1.printSchema()
 
 # COMMAND ----------
 
-make_model_df2 = model_result_df1.select("makeid","makename",explode(col("result.Results")).alias("modelresults"))
+make_model_df2 = make_model_df1.select("makeid","makename",explode(col("result.Results")).alias("modelresults"))
 make_model_df2.show(truncate=False)
 
 # COMMAND ----------
@@ -335,4 +339,4 @@ display(make_model_df4)
 
 # COMMAND ----------
 
-make_model_df4.write.repartition(rdd.getNumPartitions).save("/FileStore/vehicle_api/make_model/")
+
